@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Team 7</title>
+		<!-- <link rel="stylesheet" href="/static/bootstrap.css"> -->
+		<!-- <link rel="stylesheet" href="/static/bootstrap.min.css"> -->
+		<link rel="stylesheet" type="text/css" href="/static/styles.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+	</head>
+	<body>
+		<div id="header">
+			<div id="title">
+				<a href="/">
+					<h1 class="text">Team 7</h1>
+				</a>
+				<!-- image gotten from https://unsplash.com/photos/oWN1tKuUpJI (@amoon ra -->
+			</div>
+		</div>
+
+		<h3 class="text">What levels of nutrients are you looking for in your snack?</h3>
+		<form class="formInputs" role="form"></form>
+			<div id="sliders">
+				<div class="slidecontainer" width="100%">
+					<p id="one">Carbs:</p>
+					<output for="carbRange" class="volume" id="out1">50</output>
+					<input oninput="outputUpdate(value, name)" onmouseup="releaseUpdate(value)" step="1" type="range" min="1" max="100" value="50" class="slider" id="carbRange" name="carbRange">
+				</div>
+				Don't care about carbs?<input type="checkbox" id="carbInclude" onClick="carbAllow()">
+				<div class="slidecontainer">
+					<p id="two">Fats:</p>
+					<output for="fatRange" class="volume" id="out2">50</output>
+					<input oninput="outputUpdate(value, name)" onmouseup="releaseUpdate(value)" step="1" type="range" min="1" max="100" value="50" class="slider" id="fatRange" name="fatRange">
+				</div>
+				Don't care about fats?<input type="checkbox" id="fatInclude" onClick="fatAllow()">
+				<div class="slidecontainer">
+					<p id="three">Proteins:</p>
+					<output for="proteinRange" class="volume" id="out3">50</output>
+					<input oninput="outputUpdate(value, name)" onmouseup="releaseUpdate(value)" step="1" type="range" min="1" max="100" value="50" class="slider" id="proteinRange" name="proteinRange">
+				</div>
+				Don't care about proteins?<input type="checkbox" id="proteinInclude" onClick="proteinAllow()">
+
+				<div>
+					<input type="checkbox" id="myCheckbox"/>
+					<label for="myCheckbox"> Vegetarian </label>
+
+
+					<input type="checkbox" id="myCheckbox2"/>
+					<label for="myCheckbox2"> Vegan </label>
+
+					<input type="checkbox" id="myCheckbox3"/>
+					<label for="myCheckbox3"> Peanut Free </label>
+
+					<input type="checkbox" id="myCheckbox4"/>
+					<label for="myCheckbox4"> Gluten Free </label>
+				</div>
+
+				<div class="sorting">
+					<p>Sort results by price?
+							<select id="sortingInput" name="sortingInput" class="select-css">
+								<option value="No" selected="selected">No</option>
+							  <option value="HighToLow">High to Low</option>
+							  <option value="LowToHigh">Low to High</option>
+							</select>
+				</p>
+				</div>
+				<div id="similarSnacksInput">
+					<input placeholder="Preferred Snacks or Flavors?" name="similarSnacks" id="similarSnacks" type="text" onkeydown="if (event.keyCode == 13)
+	                        document.getElementById('submitBtn').click()"></input>
+				</div>
+				<div id="submit">
+					<button id='submitBtn' type="button" class="button" onclick="show()">Feed Me!</button>
+				</div>
+			</div>
+		</form>
+
+		<div id="resultsContainer">
+			<div id="results">
+		</div>
+
+		<script>
+
+			var posX;
+			var posY;
+			var listOfResultsDeleted = []
+			var data;
+			var dataCopy;
+			var data12;
+
+			$("body").mousemove(function(e) {
+				posX = e.pageX;
+				posY = e.pageY;
+			})
+
+			var carbSlider = document.getElementById("carbRange");
+			var fatSlider = document.getElementById("fatRange");
+			var proteinSlider = document.getElementById("proteinRange");
+			var similarSnacksInput = document.getElementById("similarSnacks");
+			var sortingInput = document.getElementById("sortingInput");
+			// console.log(sortingInput.value);
+
+			function carbAllow() {
+				var carbCheck = document.getElementById("carbInclude");
+
+				if (carbCheck.checked == true) {
+					carbSlider.style.opacity = "0.3";
+					carbSlider.disabled = true;
+				} else {
+					carbSlider.style.opacity = "0.7";
+					// carbSlider.style.content.opacity = "1.0";
+					carbSlider.disabled = false;
+				}
+			}
+
+			function fatAllow() {
+				var fatCheck = document.getElementById("fatInclude");
+
+				if (fatCheck.checked == true) {
+					fatSlider.style.opacity = "0.3";
+					fatSlider.disabled = true;
+				} else {
+					fatSlider.style.opacity = "0.7";
+					// fatSlider.style.content.opacity = "1.0";
+					fatSlider.disabled = false;
+				}
+			}
+
+			function proteinAllow() {
+				var proteinCheck = document.getElementById("proteinInclude");
+
+				if (proteinCheck.checked == true) {
+					proteinSlider.style.opacity = "0.3";
+					proteinSlider.disabled = true;
+				} else {
+					proteinSlider.style.opacity = "0.7";
+					// proteinSlider.style.content.opacity = "1.0";
+					proteinSlider.disabled = false;
+				}
+			}
+
+			function outputUpdate(vol, name) {
+			  var output = document.querySelector(".volume");
+				output.value = vol + "%";
+				output.style.display = "block";
+				var winW = $(window).width();
+			  output.style.left =  posX - 20 +'px';
+				if(name == "carbRange"){
+					pos = output.offsetHeight - 15;
+				}else if(name == "fatRange"){
+					pos = output.offsetHeight + 105;
+				}else if(name== "proteinRange"){
+					pos = output.offsetHeight + 225;
+				}
+				output.style.top =  pos - 50 +'px';
+			}
+
+			function releaseUpdate(vol) {
+				var output = document.querySelector(".volume");
+				output.value = vol;
+				output.style.display = "none";
+			}
+
+			function sortByKey(array, key) {
+			    return array.sort(function(a, b) {
+			        var x = a[key]; var y = b[key];
+			        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+			    });
+			}
+
+			function deleteFunction(value){
+				listOfResultsDeleted.push(value);
+				// console.log(value);
+				// console.log(data12);
+				// console.log(data12[value])
+				var ind = dataCopy.map(function(e) { return e[0]; }).indexOf(data12[value][0]);
+				// console.log(ind);
+				dataCopy.splice(ind,1);
+				data12.splice(value,1);
+				data12.push(dataCopy[12]);
+				// console.log("dataCopy    ",dataCopy);
+				// console.log("datacopy[12]     ",dataCopy[12]);
+				// data.push(dataCopy.);
+				// dataNew = dataCopy.slice(0,13);
+				// dataNew.splice(value,1);
+				sortByPrice(data12);
+				return printResults(data12);
+			};
+
+			function findEntry(entry,value) {
+			  return entry[0] === data12[value];
+			}
+
+			function sortByPrice(data){
+				if (data[0][7] == "LowToHigh") {
+					data = data.sort(function(a,b) {
+						return a[6].price - b[6].price;
+					});
+				}
+
+				if (data[0][7] == "HighToLow") {
+					data = data.sort(function(a,b) {
+						return b[6].price - a[6].price;
+					});
+				}
+			}
+
+			function printResults(data){
+
+				console.log(data);
+				document.getElementById("results").innerHTML = "";
+				var i;
+				if (data.length == 0){
+					$('#results').append('<p> No Results Found </p>');
+				}
+				else {
+
+					document.getElementById("results").innerHTML = "";
+					if (data.length > 12) {
+						dataCopy = data;
+					}
+					data = data.slice(0,12);
+					data12 = data;
+					console.log(data)
+				}
+
+				sortByPrice(data);
+				// document.getElementById("results").innerHTML = "";
+				for (i = 0; i < 12; i++) {
+
+					fatPercentage = data[i][1].fat;
+					carbPercentage = data[i][1].carb;
+					proteinPercentage = data[i][1].protein;
+					url = data[i][2]
+					score = data[i][3]
+					imageURL = data[i][4]
+					avgRating = data[i][5]
+					servingSize = data[i][6]["serving"]
+					calories = data[i][6]["calories"]
+					price = data[i][6]["price"]
+					sortingInput = data[i][7]
+					description = data[i][6]["description"]
+					description = description.substring(0,150)
+					matched = data[i][8]
+
+					if (price == null) {
+						price = "Price not available"
+					} else {
+						price = "$" + price
+					}
+
+					$('#results')
+						.append('<div class="catalog"> ' +
+						'<div class="boxClose" onClick="deleteFunction('+i+')">' +
+							'<a class="close"></a></div>' +
+						'<img id="productImg" border=\"0\" src=\"' +
+						imageURL + '\"> <br>' +
+						'<b>'+(i+1) + ". </b>" + "<b>"+data[i][0] +
+						"</b><p><b>Similarity Score:</b> " + score + "<br>" +
+						"</b><b>Average Amazon Rating:</b> " + avgRating + "<br>" +
+						"<b>Serving Size:</b> " + servingSize + "<br>" +
+						"<b>Serving Calories:</b> " + (calories).toFixed(0) + "<br>" +
+						"<b>Fat:</b> " + (fatPercentage).toFixed(2) + " g<br>" +
+						"<b>Carb:</b> " + (carbPercentage).toFixed(2) + " g<br>" +
+						"<b>Protein:</b> " + (proteinPercentage).toFixed(2) + " g<br>" +
+						"<b>Price:</b> " + price + "<br><br>" +
+						"<b>Matched:</b> " + matched + "<br><br>" +
+						"<b>Description:</b> " + description + "... Read more on Amazon" +
+						"</p><p><a href=\"" + url + "\">" +
+						"<img id=\"amazonImg\"border=\"0\" src=\"../static/buy_on_amazon.jpg\" width=\"200\">"
+						+ "</a></p><br><br>")
+						.addClass('text');
+				};
+			};
+
+			var elmnt = document.getElementById("results");
+
+			function scrollToResults() {
+			  elmnt.scrollIntoView(true); // Top
+			}
+
+			function show() {
+				document.getElementById("results").innerHTML = "";
+
+				$('#results')
+					.append('<div class="loader"></div>')
+
+				var fat = fatSlider.disabled ? "None" : fatSlider.value.toString();
+				var carb = carbSlider.disabled ? "None" : carbSlider.value.toString();
+		    var protein = proteinSlider.disabled ? "None" : proteinSlider.value.toString();
+		    var similarSnacks = similarSnacksInput.value;
+				var sortingInput = document.getElementById("sortingInput").value;
+				var vegetarian = document.getElementById("myCheckbox").checked;
+				var vegan = document.getElementById("myCheckbox2").checked;
+				var peanut_free = document.getElementById("myCheckbox3").checked;
+				var gluten_free = document.getElementById("myCheckbox4").checked;
+				var url = '?fat='+fat+"&carb="+carb+"&protein="+protein+
+					'&similarSnacks='+similarSnacks+'&sortingInput='+sortingInput+'&vegetarian='+
+					vegetarian+'&vegan='+vegan+'&peanutFree='+peanut_free+'&glutenFree='+gluten_free;
+
+				var http = new XMLHttpRequest();
+				http.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						// Typical action to be performed when the document is ready:
+						printResults(JSON.parse(http.response));
+						scrollToResults();
+						var oUrl = window.location.href;
+						var oUrlSplit = oUrl.split('?')[0];
+						history.pushState({
+							id: "results"
+						}, 'Snacros', (oUrlSplit == '' ? oUrl : oUrlSplit) + url);
+						}
+				};
+				http.open('GET', "/filters"+url, true);
+				http.send()
+			}
+
+				// var obj = {
+				// 	fat: fat,
+				// 	carb: carb,
+				// 	protein: protein,
+				// 	similarSnacks: similarSnacks,
+				// 	sortingInput: sortingInput,
+				// 	vegetarian: vegetarian,
+				// 	vegan: vegan,
+				// 	peanut_free: peanut_free,
+				// 	gluten_free: gluten_free
+
+				// };
+
+			// 	$.ajax({
+			// 		url: '/filters?fat='+fat+"&carb="+carb+"&protein="+protein+
+			// 		'&similarSnacks='+similarSnacks+'&sortingInput='+sortingInput+'&vegetarian='+
+			// 		vegetarian+'&vegan='+vegan+'&peanutFree='+peanut_free+'&glutenFree='+gluten_free,
+			// 		// data: obj,
+			// 		type: 'GET',
+			// 		error: function(error){
+			// 		console.log(error);
+			// 		}
+			// 	})
+			// 	.done(function(data){
+
+			// 			document.getElementById("results").innerHTML = "";
+
+			// 			data=$.parseJSON( data );
+			// 			console.log(data);
+			// 			document.getElementById("results").innerHTML = "";
+			// 			var i;
+			// 			if (data.length == 0){
+			// 				$('#results').append('<p> No Results Found </p>');
+
+			// 			}
+			// 			else {
+
+			// 				document.getElementById("results").innerHTML = "";
+			// 				dataCopy = data;
+			// 				data = data.slice(0,12);
+			// 				console.log(data)
+
+			// 				if (data[0][7] == "LowToHigh") {
+			// 					data = data.sort(function(a,b) {
+			// 						return a[6].price - b[6].price;
+			// 						// console.log
+			// 					});
+			// 				}
+
+			// 				if (data[0][7] == "HighToLow") {
+			// 					data = data.sort(function(a,b) {
+			// 						return b[6].price - a[6].price;
+			// 						// console.log
+			// 					});
+			// 				};
+
+			// 				printResults(data);
+
+			// 			};
+			// 			scrollToResults();
+			// 		})
+			// }
+
+			if (window.location.href.split('?').length > 1) {
+				var queryParams = new URLSearchParams(window.location.search);
+				var qFat = queryParams.get("fat");
+				var qCarb = queryParams.get("carb");
+				var qProtein = queryParams.get("protein");
+				var qSimilarSnacks = queryParams.get("similarSnacks");
+				var qSortingInput = queryParams.get("sortingInput");
+				var qVegetarian = queryParams.get("vegetarian");
+				var qVegan = queryParams.get("vegan");
+				var qPeanutFree = queryParams.get("peanutFree");
+				var qGlutenFree = queryParams.get("glutenFree");
+
+				var fatSlide = document.getElementById("fatRange");
+				var carbSlide = document.getElementById("carbRange");
+				var proteinSlide = document.getElementById("proteinRange");
+
+				if (qFat == "None") { document.getElementById("fatInclude").checked = true; fatAllow() } else { fatSlide.value = qFat; }
+				if (qCarb == "None") { document.getElementById("carbInclude").checked = true; carbAllow() } else { carbSlide.value = qCarb; }
+				if (qProtein == "None") { document.getElementById("proteinInclude").checked = true; proteinAllow() } else { proteinSlide.value = qProtein; }
+				document.getElementById("similarSnacks").value = qSimilarSnacks;
+				document.getElementById("sortingInput").value = qSortingInput;
+				qVegetarian == "true" ? document.getElementById("myCheckbox").checked = true : document.getElementById("myCheckbox").checked = false;
+				qVegan == "true" ? document.getElementById("myCheckbox2").checked = true : document.getElementById("myCheckbox2").checked = false;
+				qPeanutFree == "true" ? document.getElementById("myCheckbox3").checked = true : document.getElementById("myCheckbox3").checked = false;
+				qGlutenFree == "true" ? document.getElementById("myCheckbox4").checked = true : document.getElementById("myCheckbox4").checked = false;
+				show();
+			}
+
+
+		</script>
+
+		<div id="netids" class="text">
+			{{ net_id1 }},
+			{{ net_id2 }},
+			{{ net_id3 }},
+			{{ net_id4 }}
+		</div>
+	</body>
+
+</html>

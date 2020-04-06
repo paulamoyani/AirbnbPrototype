@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Team 7</title>
+		<link rel="icon" href="data:;base64,=">
+		<!-- <link rel="stylesheet" href="/static/bootstrap.css"> -->
+		<!-- <link rel="stylesheet" href="/static/bootstrap.min.css"> -->
+		<link rel="stylesheet" type="text/css" href="/static/styles.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+		<style>
+			@font-face{
+			    font-family: Cereal
+			    src: {{ url_for('static',filename='Fonts/AirbnbCerealBook.ttf') }} ;
+			}
+			@font-face{
+			    font-family: Cereal
+			    src: {{ url_for('static',filename='Fonts/AirbnbCerealLight.ttf') }} ;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="header">
+			<div id="title">
+				<a href="/">
+				</a>
+				<!-- image gotten from https://unsplash.com/photos/oWN1tKuUpJI (@amoon ra -->
+			</div>
+			<h1 class="text">airbnb recommendations for hosts</h1>
+
+		</div>
+
+		<h2 class="text">What are the characteristics of your Airbnb Listing?</h2>
+		<h3 class="text">Select all the characteristics that apply</h3>
+
+		<form class="formInputs" role="form">
+			<div id="sliders">
+				<div id="binaries">
+					<input type="checkbox" id="description"/>
+						<label for="description"> Contains Description </label>
+					</input>
+
+					<input type="checkbox" id="transit_bool"/>
+					<label for="transit_bool"> Describes Transit </label>
+
+					<input type="checkbox" id="host_about_bool"/>
+					<label for="host_about_bool"> Contains "Host About" </label>
+
+					<input type="checkbox" id="nopets_bool"/>
+					<label for="nopets_bool"> No Pets Allowed </label>
+
+					<input type="checkbox" id="nosmok_bool"/>
+					<label for="nosmok_bool"> No Smoking Allowed </label>
+
+					<input type="checkbox" id="host_identity_verified"/>
+					<label for="host_identity_verified"> Host Identity is Verified </label>
+
+					<input type="checkbox" id="is_location_exact"/>
+					<label for="is_location_exact"> Location provided is Exact </label>
+
+					<input type="checkbox" id="Wheelchair_bool"/>
+					<label for="Wheelchair_bool"> Wheelchair Access </label>
+
+					<input type="checkbox" id="TV_bool"/>
+					<label for="TV_bool"> TV is Provided </label>
+
+					<input type="checkbox" id="Hair_Dryer_bool"/>
+					<label for="Hair_Dryer_bool"> Hair Dryer is Provided </label>
+
+					<input type="checkbox" id="twentyfour_Hour_Check_in_bool"/>
+					<label for="twentyfour_Hour_Check_in_bool"> 24 Hour Check-in is Allowed </label>
+
+					<input type="checkbox" id="Doorman_bool"/>
+					<label for="Doorman_bool"> Doorman is Provided </label>
+
+					<input type="checkbox" id="Kitchen_bool"/>
+					<label for="Kitchen_bool"> Kitchen is Provided </label>
+
+					<input type="checkbox" id="Smoke_Detector_bool"/>
+					<label for="Smoke_Detector_bool"> Smoke Detector is Provided </label>
+
+					<input type="checkbox" id="Heating_bool"/>
+					<label for="Heating_bool"> Heating is Provided </label>
+
+					<input type="checkbox" id="Clothes_Dryer_bool"/>
+					<label for="Clothes_Dryer_bool"> Clothes Dryer is Provided </label>
+
+					<input type="checkbox" id="Pets_live_in_flat_bool"/>
+					<label for="Pets_live_in_flat_bool"> Pets live in the Flat </label>
+
+					<input type="checkbox" id="Free_Parking_bool"/>
+					<label for="Free_Parking_bool"> Free Parking is Provided </label>
+
+					<input type="checkbox" id="Heating_bool"/>
+					<label for="Heating_bool"> Heating is Provided </label>
+
+					<input type="checkbox" id="Internet_bool"/>
+					<label for="Internet_bool"> Internet is Provided </label>
+
+					<input type="checkbox" id="AC_bool"/>
+					<label for="AC_bool"> Air Conditioning is Provided </label>
+
+					<input type="checkbox" id="instant_bookable"/>
+					<label for="instant_bookable"> Flat is "Instant Bookable" </label>
+
+					<input type="checkbox" id="require_guest_profile_picture"/>
+					<label for="require_guest_profile_picture"> Requires Guest's Profile Picture </label>
+
+					<input type="checkbox" id="require_guest_phone_verification"/>
+					<label for="require_guest_phone_verification"> Requires Guest's Phone Verification </label>
+
+					<input type="checkbox" id="extra_price_75"/>
+					<label for="extra_price_75"> Extra Guests' Price of $75 </label>
+				</div>
+				<div class="sorting">
+					<h3 class="text"> In what neighborhood is you listing located?
+							<select id="neighborhood" name="neighborhood" class="select-css">
+								<option value="Allston" selected="selected">Allston</option>
+								<option value="BackBay">Back Bay</option>
+								<option value="BayVillage">Bay Village</option>
+								<option value="BeaconHill">Beacon Hill</option>
+								<option value="Brighton">Brighton</option>
+								<option value="Charlestown">Charlestown</option>
+								<option value="Chinatown">Chinatown</option>
+								<option value="Dorchester">Dorchester</option>
+								<option value="Downtown">Downtown</option>
+								<option value="EastBoston">East Boston</option>
+								<option value="Fenway">Fenway</option>
+								<option value="HydePark">Hyde Park</option>
+								<option value="JamaicaPlain">Jamaica Plain</option>
+								<option value="LeatherDistrict">Leather District</option>
+								<option value="LongwoodMedicalArea">Longwood Medical Area</option>
+								<option value="Mattapan">Mattapan</option>
+								<option value="MissionHill">Mission Hill</option>
+								<option value="NorthEnd">North End</option>
+								<option value="Roslindale">Roslindale</option>
+								<option value="Roxbury">Roxbury</option>
+								<option value="SouthBoston">South Boston</option>
+								<option value="SouthBostonWaterfront">South Boston Waterfront</option>
+								<option value="SouthEnd">South End</option>
+								<option value="WestEnd">West End</option>
+								<option value="WestRoxbury">West Roxbury</option>
+							</select>
+					</h3>
+					<h3 class="text"> What is the type of property of your listing?
+							<select id="property_type" name="property_type" class="select-css">
+								<option value="Apartment">Apartment</option>
+								<option value="Bed&Breakfast">Bed & Breakfast</option>
+								<option value="Boat">Boat</option>
+								<option value="Condominium">Condominium</option>
+								<option value="Dorm">Dorm</option>
+								<option value="EntireFloor">Entire Floor</option>
+								<option value="Guesthouse">Guesthouse</option>
+								<option value="House">House</option>
+								<option value="Loft">Loft</option>
+								<option value="Other">Other</option>
+								<option value="Townhouse">Townhouse</option>
+								<option value="Villa">Villa</option>
+							</select>
+					</h3>
+					<h3 class="text"> What is the type of room of your listing?
+							<select id="room_type" name="room_type" class="select-css">
+								<option value="EntireHome">Entire Home/Apartment</option>
+								<option value="PrivateRoom">Private Room</option>
+								<option value="SharedRoom">Shared Room</option>
+							</select>
+					</h3>
+					<h3 class="text"> How many people does your listing accomodate?
+							<select id="accomodates" name="accomodates" class="select-css">
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+								<option value="8">8</option>
+								<option value="9">9</option>
+								<option value="10">10</option>
+								<option value="11">11</option>
+								<option value="12">12</option>
+								<option value="13">13</option>
+								<option value="14">14</option>
+								<option value="15">15</option>
+								<option value="16">16</option>
+							</select>
+					</h3>
+					<h3 class="text"> How many bedrooms does your listing have?
+							<select id="bedrooms" name="bedrooms" class="select-css">
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+					</h3>
+					<h3 class="text"> How many beds does your listing have?
+							<select id="beds" name="beds" class="select-css">
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+								<option value="8">8</option>
+								<option value="9">9</option>
+							</select>
+					</h3>
+					<h3 class="text"> How many bathrooms does your listing have?
+							<select id="bathrooms" name="bathrooms" class="select-css">
+								<option value="0">0</option>
+								<option value="0.5">0.5</option>
+								<option value="1">1</option>
+								<option value="1.5">1.5</option>
+								<option value="2">2</option>
+								<option value="2.5">2.5</option>
+								<option value="3">3</option>
+								<option value="3.5">3.5</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+							</select>
+					</h3>
+					<h3 class="text"> How many extra guests does your listing allow?
+							<select id="extra_guests" name="extra_guests" class="select-css">
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+								<option value="8">8</option>
+								<option value="9">9</option>
+								<option value="10">10</option>
+								<option value="12">12</option>
+								<option value="14">14</option>
+							</select>
+					</h3>
+					<h3 class="text"> On average, how quickly do you reply to messages?
+							<select id="response_time" name="response_time" class="select-css">
+								<option value="1Hour" selected="selected">Within 1 Hour</option>
+								<option value="Hours">Within a Few Hours</option>
+								<option value="1Day">Within 1 Day</option>
+								<option value="Days">Within a Few Days</option>
+							</select>
+					</h3>
+					<h3 class="text"> How strict are your cancellations?
+							<select id="cancellations" name="cancellations" class="select-css">
+								<option value="SuperStrict" selected="selected">Super Strict</option>
+								<option value="Strict">Strict</option>
+								<option value="Moderate">Moderate</option>
+								<option value="Flexible">Flexible</option>
+							</select>
+					</h3>
+				</div>
+				<div id="host_response_rateInput">
+					<input id="host_response_rate" value="" placeholder="% of messages replied (i.e. 0.5 for 50% of the messages)" name="host_response_rate" type="text" onkeydown="if (event.keyCode == 13) document.getElementById('submitBtn').click()" required> </input>
+				</div>
+				<div id="security_depositInput">
+					<input placeholder="Security deposit amount (without symbol $)" name="security_deposit" id="security_deposit" type="text" required></input>
+				</div>
+				<div id="cleaning_feeInput">
+					<input placeholder="Cleaning fee amount (without symbol $)" name="cleaning_fee" id="cleaning_fee" type="text" required></input>
+				</div>
+				<div id="dateInput">
+					<input type="date" id="date" name="date" value="2020-07-22" min="2020-01-01" max="2025-12-31" required></input>
+				</div>
+				<div id="submit">
+					<button id='submitBtn' type="button" class="button" onclick="show()">Show me recommendations!</button>
+				</div>
+			</div>
+		</form>
+
+		<div id="resultsContainer">
+			<div id="results">
+		</div>
+
+		<script>
+
+			var posX;
+			var posY;
+			var listOfResultsDeleted = []
+			var data;
+			var dataCopy;
+			var data12;
+
+			// text inputs
+			var host_response_rate = document.getElementById("host_response_rate").value;
+			var security_deposit = document.getElementById("security_deposit").value;
+			var cleaning_fee = document.getElementById("cleaning_fee").value;
+			var date = document.getElementById("date").value;
+
+			// binary inputs
+			var description = document.getElementById("description").checked;
+			var transit_bool = document.getElementById("transit_bool").checked;
+			var host_about_bool = document.getElementById("host_about_bool").checked;
+			var nopets_bool = document.getElementById("nopets_bool").checked;
+			var nosmok_bool = document.getElementById("nosmok_bool").checked;
+			var host_identity_verified = document.getElementById("host_identity_verified").checked;
+			var is_location_exact = document.getElementById("is_location_exact").checked;
+			var Wheelchair_bool = document.getElementById("Wheelchair_bool").checked;
+			var TV_bool = document.getElementById("TV_bool").checked;
+			var Clothes_Dryer_bool = document.getElementById("Clothes_Dryer_bool").checked;
+			var twentyfour_Hour_Check_in_bool = document.getElementById("twentyfour_Hour_Check_in_bool").checked;
+			var Doorman_bool = document.getElementById("Doorman_bool").checked;
+			var Kitchen_bool = document.getElementById("Kitchen_bool").checked;
+			var Smoke_Detector_bool = document.getElementById("Smoke_Detector_bool").checked;
+			var Heating_bool = document.getElementById("Heating_bool").checked;
+			// var Clothes_Washer_bool = document.getElementById("Clothes_Washer_bool").checked;
+			var Pets_live_in_flat_bool = document.getElementById("Pets_live_in_flat_bool").checked;
+			var Free_Parking_bool = document.getElementById("Free_Parking_bool").checked;
+			var Internet_bool = document.getElementById("Internet_bool").checked;
+			var AC_bool = document.getElementById("AC_bool").checked;
+			var instant_bookable = document.getElementById("instant_bookable").checked;
+			var require_guest_profile_picture = document.getElementById("require_guest_profile_picture").checked;
+			var require_guest_phone_verification = document.getElementById("require_guest_phone_verification").checked;
+			var extra_price_75 = document.getElementById("extra_price_75").checked;
+
+			// dropdown inputs
+			var neighborhood = document.getElementById("neighborhood").value;
+			var property_type = document.getElementById("property_type").value;
+			var room_type = document.getElementById("room_type").value;
+			var accomodates = document.getElementById("accomodates").value;
+			var bedrooms = document.getElementById("bedrooms").value;
+			var bathrooms = document.getElementById("bathrooms").value;
+			var extra_guests = document.getElementById("extra_guests").value;
+			var beds = document.getElementById("beds").value;
+			var response_time = document.getElementById("response_time").value;
+			var cancellations = document.getElementById("cancellations").value;
+
+
+			// function findEntry(entry,value) {
+			//   return entry[0] === data12[value];
+			// }
+
+
+			function printResults(data){
+				console.log(data);
+
+				html = []
+				data = data.split(":")
+				data[0] = data[0]+":"
+				data[1] = data[1].split("--")
+
+				var html = "<div class=prettyprint> <b>" + data[0] + "</b>"
+				for(var i in data[1]){
+					html += '<p>' + " - " + data[1][i] + '</p>';
+				}
+				html+= '</div>'
+
+				$('#results').append(html).addClass('text');
+
+				// // console.log(data);
+				// document.getElementById("results").innerHTML = "";
+				// var i;
+				// if (data.length == 0){
+				// 	$('#results').append('<p> No Results Found </p>');
+				// }
+				// // else {
+				// //
+				// // 	document.getElementById("results").innerHTML = "";
+				// // 	if (data.length > 12) {
+				// // 		dataCopy = data;
+				// // 	}
+				// // 	data = data.slice(0,12);
+				// // 	data12 = data;
+				// // 	console.log(data)
+				// // }
+				//
+				// // sortByPrice(data);
+				// // document.getElementById("results").innerHTML = "";
+				// for (i = 0; i < 63; i++) {
+				//
+				// 	url = data[i][2]
+				// 	score = data[i][3]
+				// 	imageURL = data[i][4]
+				// 	avgRating = data[i][5]
+				// 	servingSize = data[i][6]["serving"]
+				// 	calories = data[i][6]["calories"]
+				// 	price = data[i][6]["price"]
+				// 	sortingInput = data[i][7]
+				// 	description = data[i][6]["description"]
+				// 	description = description.substring(0,150)
+				// 	matched = data[i][8]
+				//
+				// 	if (price == null) {
+				// 		price = "Price not available"
+				// 	} else {
+				// 		price = "$" + price
+				// 	}
+				//
+				// 	$('#results')
+				// 		.append('<div class="catalog"> ' +
+				// 		'<div class="boxClose" onClick="deleteFunction('+i+')">' +
+				// 			'<a class="close"></a></div>' +
+				// 		'<img id="productImg" border=\"0\" src=\"' +
+				// 		imageURL + '\"> <br>' +
+				// 		'<b>'+(i+1) + ". </b>" + "<b>"+data[i][0] +
+				// 		"</b><p><b>Similarity Score:</b> " + score + "<br>" +
+				// 		"</b><b>Average Amazon Rating:</b> " + avgRating + "<br>" +
+				// 		"<b>Serving Size:</b> " + servingSize + "<br>" +
+				// 		"<b>Serving Calories:</b> " + (calories).toFixed(0) + "<br>" +
+				// 		"<b>Fat:</b> " + (fatPercentage).toFixed(2) + " g<br>" +
+				// 		"<b>Carb:</b> " + (carbPercentage).toFixed(2) + " g<br>" +
+				// 		"<b>Protein:</b> " + (proteinPercentage).toFixed(2) + " g<br>" +
+				// 		"<b>Price:</b> " + price + "<br><br>" +
+				// 		"<b>Matched:</b> " + matched + "<br><br>" +
+				// 		"<b>Description:</b> " + description + "... Read more on Amazon" +
+				// 		"</p><p><a href=\"" + url + "\">" +
+				// 		"<img id=\"amazonImg\"border=\"0\" src=\"../static/buy_on_amazon.jpg\" width=\"200\">"
+				// 		+ "</a></p><br><br>")
+				// 		.addClass('text');
+				// };
+			};
+
+			var elmnt = document.getElementById("results");
+
+			function scrollToResults() {
+			  elmnt.scrollIntoView(true); // Top
+			}
+
+			function show() {
+
+				document.getElementById("results").innerHTML = "";
+
+				// $('#results').append('<div class="loader"></div>')
+
+				// text inputs
+				var host_response_rate = document.getElementById("host_response_rate").value;
+				var security_deposit = document.getElementById("security_deposit").value;
+				var cleaning_fee = document.getElementById("cleaning_fee").value;
+				var date = document.getElementById("date").value;
+
+				// binary inputs
+				var description = document.getElementById("description").checked;
+				var transit_bool = document.getElementById("transit_bool").checked;
+				var host_about_bool = document.getElementById("host_about_bool").checked;
+				var nopets_bool = document.getElementById("nopets_bool").checked;
+				var nosmok_bool = document.getElementById("nosmok_bool").checked;
+				var host_identity_verified = document.getElementById("host_identity_verified").checked;
+				var is_location_exact = document.getElementById("is_location_exact").checked;
+				var Wheelchair_bool = document.getElementById("Wheelchair_bool").checked;
+				var TV_bool = document.getElementById("TV_bool").checked;
+				var Hair_Dryer_bool = document.getElementById("Hair_Dryer_bool").checked;
+				var twentyfour_Hour_Check_in_bool = document.getElementById("twentyfour_Hour_Check_in_bool").checked;
+				var Doorman_bool = document.getElementById("Doorman_bool").checked;
+				var Kitchen_bool = document.getElementById("Kitchen_bool").checked;
+				var Smoke_Detector_bool = document.getElementById("Smoke_Detector_bool").checked;
+				var Heating_bool = document.getElementById("Heating_bool").checked;
+				var Clothes_Dryer_bool = document.getElementById("Clothes_Dryer_bool").checked;
+				var Pets_live_in_flat_bool = document.getElementById("Pets_live_in_flat_bool").checked;
+				var Free_Parking_bool = document.getElementById("Free_Parking_bool").checked;
+				var Internet_bool = document.getElementById("Internet_bool").checked;
+				var AC_bool = document.getElementById("AC_bool").checked;
+				var instant_bookable = document.getElementById("instant_bookable").checked;
+				var require_guest_profile_picture = document.getElementById("require_guest_profile_picture").checked;
+				var require_guest_phone_verification = document.getElementById("require_guest_phone_verification").checked;
+				var extra_price_75 = document.getElementById("extra_price_75").checked;
+
+				// dropdown inputs
+				var neighborhood = document.getElementById("neighborhood").value;
+				var property_type = document.getElementById("property_type").value;
+				var room_type = document.getElementById("room_type").value;
+				var accomodates = document.getElementById("accomodates").value;
+				var bedrooms = document.getElementById("bedrooms").value;
+				var bathrooms = document.getElementById("bathrooms").value;
+				var extra_guests = document.getElementById("extra_guests").value;
+				var beds = document.getElementById("beds").value;
+				var response_time = document.getElementById("response_time").value;
+				var cancellations = document.getElementById("cancellations").value;
+
+				var url = '?host_response_rate='+host_response_rate+"&security_deposit="+security_deposit+"&cleaning_fee="+cleaning_fee+
+					'&date='+date+'&description='+description+'&transit_bool='+transit_bool+'&host_about_bool='+host_about_bool+'&nopets_bool='+nopets_bool+
+					'&nosmok_bool='+nosmok_bool+'&host_identity_verified='+host_identity_verified+'&is_location_exact='+is_location_exact+'&Wheelchair_bool='+Wheelchair_bool+
+					'&TV_bool='+TV_bool+'&Hair_Dryer_bool='+Hair_Dryer_bool+'&twentyfour_Hour_Check_in_bool='+twentyfour_Hour_Check_in_bool+'&Doorman_bool='+Doorman_bool+'&Kitchen_bool='+Kitchen_bool+
+					'&Smoke_Detector_bool='+Smoke_Detector_bool+'&Heating_bool='+Heating_bool+'&Clothes_Dryer_bool='+Clothes_Dryer_bool+'&Pets_live_in_flat_bool='+Pets_live_in_flat_bool+'&Free_Parking_bool='+Free_Parking_bool+
+					'&Internet_bool='+Internet_bool+'&AC_bool='+AC_bool+'&instant_bookable='+instant_bookable+'&require_guest_profile_picture='+require_guest_profile_picture+'&require_guest_phone_verification='+require_guest_phone_verification+
+					'&extra_price_75='+extra_price_75+'&neighborhood='+neighborhood+'&property_type='+property_type+'&room_type='+room_type+'&accomodates='+accomodates+
+					'&bedrooms='+bedrooms+'&bathrooms='+bathrooms+'&extra_guests='+extra_guests+'&beds='+beds+'&response_time='+response_time+'&cancellations='+cancellations;
+
+				var url = '?host_response_rate='+host_response_rate+"&security_deposit="+security_deposit+"&cleaning_fee="+cleaning_fee+
+				'&date='+date+'&description='+description+'&transit_bool='+transit_bool+'&host_about_bool='+host_about_bool+'&nopets_bool='+nopets_bool+
+				'&nosmok_bool='+nosmok_bool+'&host_identity_verified='+host_identity_verified+'&is_location_exact='+is_location_exact+'&Wheelchair_bool='+Wheelchair_bool+
+				'&TV_bool='+TV_bool+'&Hair_Dryer_bool='+Hair_Dryer_bool+'&twentyfour_Hour_Check_in_bool='+twentyfour_Hour_Check_in_bool+'&Doorman_bool='+Doorman_bool+'&Kitchen_bool='+Kitchen_bool+
+				'&Smoke_Detector_bool='+Smoke_Detector_bool+'&Heating_bool='+Heating_bool+'&Clothes_Dryer_bool='+Clothes_Dryer_bool+'&Pets_live_in_flat_bool='+Pets_live_in_flat_bool+'&Free_Parking_bool='+Free_Parking_bool+
+				'&Internet_bool='+Internet_bool+'&AC_bool='+AC_bool+'&instant_bookable='+instant_bookable+'&require_guest_profile_picture='+require_guest_profile_picture+'&require_guest_phone_verification='+require_guest_phone_verification+
+				'&extra_price_75='+extra_price_75+'&neighborhood='+neighborhood+'&property_type='+property_type+'&room_type='+room_type+'&accomodates='+accomodates+
+				'&bedrooms='+bedrooms+'&bathrooms='+bathrooms+'&extra_guests='+extra_guests+'&beds='+beds+'&response_time='+response_time+'&cancellations='+cancellations;
+
+
+
+				console.log(url)
+				var http = new XMLHttpRequest();
+				http.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						// Typical action to be performed when the document is ready:
+						// console.log(http.response)
+						printResults(http.response);
+						scrollToResults();
+						var oUrl = window.location.href;
+						var oUrlSplit = oUrl.split('?')[0];
+						history.pushState({
+							id: "results"
+						}, 'Team7', (oUrlSplit == '' ? oUrl : oUrlSplit) + url);
+						}
+				};
+				http.open('GET', "/filters"+url, true);
+				http.send()
+			};
+			// show();
+
+			if (window.location.href.split('?').length > 1) {
+				var queryParams = new URLSearchParams(window.location.search);
+				var qhost_response_rate = queryParams.get("host_response_rate");
+				var qsecurity_deposit = queryParams.get("security_deposit");
+				var qcleaning_fee = queryParams.get("cleaning_fee");
+				var qdate = queryParams.get("date");
+				var qdescription = queryParams.get("description");
+				var qtransit_bool = queryParams.get("transit_bool");
+				var qVegan = queryParams.get("vegan");
+				var qhost_about_bool = queryParams.get("host_about_bool");
+				var qnopets_bool = queryParams.get("nopets_bool");
+
+
+				document.getElementById("security_deposit").value = qsecurity_deposit;
+				document.getElementById("host_response_rate").value = qhost_response_rate;
+				document.getElementById("cleaning_fee").value = qcleaning_fee;
+				document.getElementById("date").value = qdate;
+				qdescription == "true" ? document.getElementById("description").checked = true : document.getElementById("description").checked = false;
+				qtransit_bool == "true" ? document.getElementById("transit_bool").checked = true : document.getElementById("transit_bool").checked = false;
+				qhost_about_bool == "true" ? document.getElementById("host_about_bool").checked = true : document.getElementById("host_about_bool").checked = false;
+				qnopets_bool == "true" ? document.getElementById("nopets_bool").checked = true : document.getElementById("nopets_bool").checked = false;
+
+				//
+				// var nosmok_bool = document.getElementById("nosmok_bool").checked;
+				// var host_identity_verified = document.getElementById("host_identity_verified").checked;
+				// var is_location_exact = document.getElementById("is_location_exact").checked;
+				// var Wheelchair_bool = document.getElementById("Wheelchair_bool").checked;
+				// var TV_bool = document.getElementById("TV_bool").checked;
+				// var Hair_Dryer_bool = document.getElementById("Hair_Dryer_bool").checked;
+				// var twentyfour_Hour_Check_in_bool = document.getElementById("twentyfour_Hour_Check_in_bool").checked;
+				// var Doorman_bool = document.getElementById("Doorman_bool").checked;
+				// var Kitchen_bool = document.getElementById("Kitchen_bool").checked;
+				// var Smoke_Detector_bool = document.getElementById("Smoke_Detector_bool").checked;
+				// var Heating_bool = document.getElementById("Heating_bool").checked;
+				// var Clothes_Washer_bool = document.getElementById("Clothes_Washer_bool").checked;
+				// var Pets_live_in_flat_bool = document.getElementById("Pets_live_in_flat_bool").checked;
+				// var Free_Parking_bool = document.getElementById("Free_Parking_bool").checked;
+				// var Internet_bool = document.getElementById("Internet_bool").checked;
+				// var AC_bool = document.getElementById("AC_bool").checked;
+				// var instant_bookable = document.getElementById("instant_bookable").checked;
+				// var require_guest_profile_picture = document.getElementById("require_guest_profile_picture").checked;
+				// var require_guest_phone_verification = document.getElementById("require_guest_phone_verification").checked;
+				// var extra_price_75 = document.getElementById("extra_price_75").checked;
+				//
+				// // dropdown inputs
+				// var neighborhood = document.getElementById("neighborhood").value;
+				// var property_type = document.getElementById("property_type").value;
+				// var room_type = document.getElementById("room_type").value;
+				// var accomodates = document.getElementById("accomodates").value;
+				// var bedrooms = document.getElementById("bedrooms").value;
+				// var bathrooms = document.getElementById("bathrooms").value;
+				// var extra_guests = document.getElementById("extra_guests").value;
+				// var beds = document.getElementById("beds").value;
+				// var response_time = document.getElementById("response_time").value;
+				// var cancellations = document.getElementById("cancellations").value;
+
+
+
+
+
+
+
+
+				show();
+			};
+
+
+		</script>
+
+		<div id="netids" class="text">
+		</div>
+	</body>
+
+</html>
