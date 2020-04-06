@@ -544,7 +544,7 @@
 				var qAC_bool = queryParams.get("AC_bool");
 				var qinstant_bookable = queryParams.get("instant_bookable");
 				var qrequire_guest_profile_picture = queryParams.get("require_guest_profile_picture");
-				var qrequire_guest_profile_picture = queryParams.get("require_guest_profile_picture");
+				var qrequire_guest_phone_verification = queryParams.get("require_guest_phone_verification");
 				var qextra_price_75 = queryParams.get("extra_price_75");
 
 				document.getElementById("security_deposit").value = qsecurity_deposit;
@@ -553,6 +553,8 @@
 				document.getElementById("date").value = qdate;
 				qdescription == "true" ? document.getElementById("description").checked = true : document.getElementById("description").checked = false;
 				qtransit_bool == "true" ? document.getElementById("transit_bool").checked = true : document.getElementById("transit_bool").checked = false;
+				qnopets_bool == "true" ? document.getElementById("nopets_bool").checked = true : document.getElementById("nopets_bool").checked = false;
+				qnosmok_booql == "true" ? document.getElementById("nosmok_booql").checked = true : document.getElementById("nosmok_booql").checked = false;
 				qhost_about_bool == "true" ? document.getElementById("host_about_bool").checked = true : document.getElementById("host_about_bool").checked = false;
 				qhost_identity_verified == "true" ? document.getElementById("host_identity_verified").checked = true : document.getElementById("host_identity_verified").checked = false;
 				qis_location_exact == "true" ? document.getElementById("is_location_exact").checked = true : document.getElementById("is_location_exact").checked = false;
@@ -567,10 +569,11 @@
 				qClothes_Dryer_bool == "true" ? document.getElementById("Clothes_Dryer_bool").checked = true : document.getElementById("Clothes_Dryer_bool").checked = false;
 				qPets_live_in_flat_bool == "true" ? document.getElementById("Pets_live_in_flat_bool").checked = true : document.getElementById("Pets_live_in_flat_bool").checked = false;
 				qInternet_bool == "true" ? document.getElementById("Internet_bool").checked = true : document.getElementById("Internet_bool").checked = false;
+				qFree_Parking_bool == "true" ? document.getElementById("Free_Parking_bool").checked = true : document.getElementById("Free_Parking_bool").checked = false;
 				qAC_bool == "true" ? document.getElementById("AC_bool").checked = true : document.getElementById("AC_bool").checked = false;
 				qinstant_bookable == "true" ? document.getElementById("instant_bookable").checked = true : document.getElementById("instant_bookable").checked = false;
 				qrequire_guest_profile_picture == "true" ? document.getElementById("require_guest_profile_picture").checked = true : document.getElementById("require_guest_profile_picture").checked = false;
-				qrequire_guest_profile_picture == "true" ? document.getElementById("require_guest_profile_picture").checked = true : document.getElementById("require_guest_profile_picture").checked = false;
+				qrequire_guest_phone_verification == "true" ? document.getElementById("require_guest_phone_verification").checked = true : document.getElementById("require_guest_phone_verification").checked = false;
 				qextra_price_75 == "true" ? document.getElementById("extra_price_75").checked = true : document.getElementById("extra_price_75").checked = false;
 
 				//
