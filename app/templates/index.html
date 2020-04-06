@@ -355,68 +355,6 @@
 					var html = "<div class=prettyprint> <b>" + data + "</b></div>"
 					$('#results').append(html).addClass('text');
 				}
-
-				// // console.log(data);
-				// document.getElementById("results").innerHTML = "";
-				// var i;
-				// if (data.length == 0){
-				// 	$('#results').append('<p> No Results Found </p>');
-				// }
-				// // else {
-				// //
-				// // 	document.getElementById("results").innerHTML = "";
-				// // 	if (data.length > 12) {
-				// // 		dataCopy = data;
-				// // 	}
-				// // 	data = data.slice(0,12);
-				// // 	data12 = data;
-				// // 	console.log(data)
-				// // }
-				//
-				// // sortByPrice(data);
-				// // document.getElementById("results").innerHTML = "";
-				// for (i = 0; i < 63; i++) {
-				//
-				// 	url = data[i][2]
-				// 	score = data[i][3]
-				// 	imageURL = data[i][4]
-				// 	avgRating = data[i][5]
-				// 	servingSize = data[i][6]["serving"]
-				// 	calories = data[i][6]["calories"]
-				// 	price = data[i][6]["price"]
-				// 	sortingInput = data[i][7]
-				// 	description = data[i][6]["description"]
-				// 	description = description.substring(0,150)
-				// 	matched = data[i][8]
-				//
-				// 	if (price == null) {
-				// 		price = "Price not available"
-				// 	} else {
-				// 		price = "$" + price
-				// 	}
-				//
-				// 	$('#results')
-				// 		.append('<div class="catalog"> ' +
-				// 		'<div class="boxClose" onClick="deleteFunction('+i+')">' +
-				// 			'<a class="close"></a></div>' +
-				// 		'<img id="productImg" border=\"0\" src=\"' +
-				// 		imageURL + '\"> <br>' +
-				// 		'<b>'+(i+1) + ". </b>" + "<b>"+data[i][0] +
-				// 		"</b><p><b>Similarity Score:</b> " + score + "<br>" +
-				// 		"</b><b>Average Amazon Rating:</b> " + avgRating + "<br>" +
-				// 		"<b>Serving Size:</b> " + servingSize + "<br>" +
-				// 		"<b>Serving Calories:</b> " + (calories).toFixed(0) + "<br>" +
-				// 		"<b>Fat:</b> " + (fatPercentage).toFixed(2) + " g<br>" +
-				// 		"<b>Carb:</b> " + (carbPercentage).toFixed(2) + " g<br>" +
-				// 		"<b>Protein:</b> " + (proteinPercentage).toFixed(2) + " g<br>" +
-				// 		"<b>Price:</b> " + price + "<br><br>" +
-				// 		"<b>Matched:</b> " + matched + "<br><br>" +
-				// 		"<b>Description:</b> " + description + "... Read more on Amazon" +
-				// 		"</p><p><a href=\"" + url + "\">" +
-				// 		"<img id=\"amazonImg\"border=\"0\" src=\"../static/buy_on_amazon.jpg\" width=\"200\">"
-				// 		+ "</a></p><br><br>")
-				// 		.addClass('text');
-				// };
 			};
 
 			var elmnt = document.getElementById("results");
@@ -575,47 +513,6 @@
 				qrequire_guest_profile_picture == "true" ? document.getElementById("require_guest_profile_picture").checked = true : document.getElementById("require_guest_profile_picture").checked = false;
 				qrequire_guest_phone_verification == "true" ? document.getElementById("require_guest_phone_verification").checked = true : document.getElementById("require_guest_phone_verification").checked = false;
 				qextra_price_75 == "true" ? document.getElementById("extra_price_75").checked = true : document.getElementById("extra_price_75").checked = false;
-
-				//
-				// var nosmok_bool = document.getElementById("nosmok_bool").checked;
-				// var host_identity_verified = document.getElementById("host_identity_verified").checked;
-				// var is_location_exact = document.getElementById("is_location_exact").checked;
-				// var Wheelchair_bool = document.getElementById("Wheelchair_bool").checked;
-				// var TV_bool = document.getElementById("TV_bool").checked;
-				// var Hair_Dryer_bool = document.getElementById("Hair_Dryer_bool").checked;
-				// var twentyfour_Hour_Check_in_bool = document.getElementById("twentyfour_Hour_Check_in_bool").checked;
-				// var Doorman_bool = document.getElementById("Doorman_bool").checked;
-				// var Kitchen_bool = document.getElementById("Kitchen_bool").checked;
-				// var Smoke_Detector_bool = document.getElementById("Smoke_Detector_bool").checked;
-				// var Heating_bool = document.getElementById("Heating_bool").checked;
-				// var Clothes_Washer_bool = document.getElementById("Clothes_Washer_bool").checked;
-				// var Pets_live_in_flat_bool = document.getElementById("Pets_live_in_flat_bool").checked;
-				// var Free_Parking_bool = document.getElementById("Free_Parking_bool").checked;
-				// var Internet_bool = document.getElementById("Internet_bool").checked;
-				// var AC_bool = document.getElementById("AC_bool").checked;
-				// var instant_bookable = document.getElementById("instant_bookable").checked;
-				// var require_guest_profile_picture = document.getElementById("require_guest_profile_picture").checked;
-				// var require_guest_phone_verification = document.getElementById("require_guest_phone_verification").checked;
-				// var extra_price_75 = document.getElementById("extra_price_75").checked;
-				//
-				// // dropdown inputs
-				// var neighborhood = document.getElementById("neighborhood").value;
-				// var property_type = document.getElementById("property_type").value;
-				// var room_type = document.getElementById("room_type").value;
-				// var accomodates = document.getElementById("accomodates").value;
-				// var bedrooms = document.getElementById("bedrooms").value;
-				// var bathrooms = document.getElementById("bathrooms").value;
-				// var extra_guests = document.getElementById("extra_guests").value;
-				// var beds = document.getElementById("beds").value;
-				// var response_time = document.getElementById("response_time").value;
-				// var cancellations = document.getElementById("cancellations").value;
-
-
-
-
-
-
-
 
 				show();
 			};
