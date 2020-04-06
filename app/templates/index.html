@@ -90,9 +90,6 @@
 					<input type="checkbox" id="Free_Parking_bool"/>
 					<label for="Free_Parking_bool"> Free Parking is Provided </label>
 
-					<input type="checkbox" id="Heating_bool"/>
-					<label for="Heating_bool"> Heating is Provided </label>
-
 					<input type="checkbox" id="Internet_bool"/>
 					<label for="Internet_bool"> Internet is Provided </label>
 
@@ -338,18 +335,26 @@
 			function printResults(data){
 				console.log(data);
 
-				html = []
-				data = data.split(":")
-				data[0] = data[0]+":"
-				data[1] = data[1].split("--")
+				if (data != "Your Airbnb is very competitive compared to all the other Airbnbs in Boston!"){
+					console.log("yes")
+					html = []
+					data = data.split(":")
+					data[0] = data[0]+":"
+					data[1] = data[1].split("--")
 
-				var html = "<div class=prettyprint> <b>" + data[0] + "</b>"
-				for(var i in data[1]){
-					html += '<p>' + " - " + data[1][i] + '</p>';
+					var html = "<div class=prettyprint> <b>" + data[0] + "</b>"
+					for(var i in data[1]){
+						html += '<p>' + " - " + data[1][i] + '</p>';
+					}
+					html+= '</div>'
+
+					$('#results').append(html).addClass('text');
 				}
-				html+= '</div>'
-
-				$('#results').append(html).addClass('text');
+				if (data == "Your Airbnb is very competitive compared to all the other Airbnbs in Boston!"){
+					console.log("no")
+					var html = "<div class=prettyprint> <b>" + data + "</b></div>"
+					$('#results').append(html).addClass('text');
+				}
 
 				// // console.log(data);
 				// document.getElementById("results").innerHTML = "";
