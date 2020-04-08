@@ -1,6 +1,6 @@
 # Gevent needed for sockets
 from gevent import monkey
-monkey.patch_all()
+monkey.patch_all(thread=False)
 
 # Imports
 import os
@@ -114,6 +114,7 @@ from sklearn.ensemble import VotingClassifier
 
 # XGBOOST
 from xgboost import XGBClassifier
+from xgboost import XGBRegressor
 import xgboost as xgb
 
 # CLUSTERING
@@ -155,15 +156,6 @@ def not_found(error):
 def index():
     return render_template('index.html')
 
-    # @app.route('/filterLevels', methods=['POST'])
-    # def filterLevels():
-    # 	fat =  request.form.get('fat');
-    # 	carb = request.form.get('carb');
-    # 	protein = request.form.get('protein');
-    # 	similarSnacks = request.form.get('similarSnacks');
-    # 	dumps = json.dumps({'status':'OK','fat':fat,'carb':carb,'protein':protein, 'similarSnacks':similarSnacks});
-    # 	return dumps;
-
 @app.route('/filters', methods=['GET'])
 def filters():
 
@@ -175,9 +167,30 @@ def filters():
 
     # text inputs
     host_response_rate = float(request.args.get("host_response_rate"));
+    date = request.args.get("date");
     security_deposit = float(request.args.get("security_deposit"));
     cleaning_fee = float(request.args.get("cleaning_fee"));
-    date = request.args.get("date");
+    # standardizing cleaning, security fee, and host_response_rate
+    data = pd.read_csv("Data/listings_8.csv")
+    scaler = MinMaxScaler(feature_range=(0,1))
+
+    sec = data[["security_deposit"]].copy()
+    df2 = pd.DataFrame([[security_deposit]], columns=['security_deposit'])
+    sec = sec.append(df2)
+    sec = scaler.fit_transform(sec)
+    security_deposit = float(sec[-1:])
+
+    clean = data[["cleaning_fee"]].copy()
+    df2   = pd.DataFrame([[cleaning_fee]], columns=['cleaning_fee'])
+    clean = clean.append(df2)
+    clean = scaler.fit_transform(clean)
+    cleaning_fee = float(clean[-1:])
+
+    hrr = data[["host_response_rate"]].copy()
+    df2 = pd.DataFrame([[host_response_rate]], columns=['host_response_rate'])
+    hrr = hrr.append(df2)
+    hrr = scaler.fit_transform(hrr)
+    host_response_rate = float(hrr[-1:])
 
     # binary inputs
     description = str_to_bool(request.args.get("description"));
@@ -443,8 +456,8 @@ def filters():
     # [print(type(airbnb))]
     # [print(df.shape)]
     # [print(airbnb.shape)]
-    print(df)
-    print(airbnb)
+    # print(df)
+    # print(airbnb)
 
     # print(recommendations(coefs, df, X_wnei, data, recom))
 
