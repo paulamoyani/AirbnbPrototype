@@ -381,7 +381,7 @@
 					}
 					html+= '</div><br><br><br><br>';
 
-					html+= "<br><div class=prettyprint> <b> Based on your date and current attributes, recommend you use the following price:</b>";
+					html+= "<br><div class=prettyprint> <b> Based on your date and current attributes, we recommend you use the following price:</b>";
 					html+= "<p>$" + price + '</p><br>';
 
 					$('#results').append(html).addClass('text');
@@ -394,7 +394,7 @@
 					html = []
 
 					html+= "<div class=prettyprint> <b>" + data[0] + "</b></div><br><br><br><br><br><br>"
-					html+= "<div class=prettyprint> <b> Based on your date and current attributes, recommend you use the following price:</b>"
+					html+= "<div class=prettyprint> <b> Based on your date and current attributes, we recommend you use the following price:</b>"
 					html+= "<p>$" + Math.round(parseFloat(data[1])); + '</p></div><br>';
 
 					$('#results').append(html).addClass('text');
