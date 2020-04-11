@@ -439,6 +439,6 @@ input[type=checkbox]:Checked+label {
     left: 50%;
     margin: auto;
     width: 900px;
-    height: 500px;
+    height: fit-content;
     font-size: 16pt;
 }

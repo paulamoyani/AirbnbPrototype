@@ -1,6 +1,6 @@
 # Gevent needed for sockets
 from gevent import monkey
-monkey.patch_all(thread=False)
+monkey.patch_all()
 
 # Imports
 import os
@@ -125,6 +125,9 @@ from sklearn.cluster import MiniBatchKMeans
 from pickle import dump
 from pickle import load
 
+from datetime import datetime
+
+
 
 start_time = time.time()
 # Configure app
@@ -168,9 +171,41 @@ def filters():
     # text inputs
     host_response_rate = float(request.args.get("host_response_rate"));
     date = request.args.get("date");
+    datetimeobject = datetime.strptime(date,'%Y-%m-%d')
+    date = datetimeobject.strftime('%m/%d/%Y')
+
     security_deposit = float(request.args.get("security_deposit"));
     cleaning_fee = float(request.args.get("cleaning_fee"));
-    # standardizing cleaning, security fee, and host_response_rate
+    bedrooms = float(request.args.get("bedrooms"));
+    beds = float(request.args.get("beds"));
+    bathrooms = float(request.args.get("bathrooms"));
+    accomodates = float(request.args.get("accomodates"));
+
+    # standardizing
+    # bedr = data[["bedrooms"]].copy()
+    # df = pd.DataFrame([[bedrooms]], columns=['bedrooms'])
+    # bedr = bedr.append(df)
+    # bedr = scaler.fit_transform(bedr)
+    # bedrooms = float(bedr[-1:])
+
+    # bed = data[["beds"]].copy()
+    # df = pd.DataFrame([[beds]], columns=['beds'])
+    # bed = bed.append(df)
+    # bed = scaler.fit_transform(bed)
+    # beds = float(bed[-1:])
+
+    # bath = data[["bathrooms"]].copy()
+    # df = pd.DataFrame([[bathrooms]], columns=['bathrooms'])
+    # bath = bath.append(df)
+    # bath = scaler.fit_transform(bath)
+    # bathrooms = float(bath[-1:])
+
+    # acc = data[["accomodates"]].copy()
+    # df = pd.DataFrame([[accomodates]], columns=['accomodates'])
+    # acc = acc.append(df)
+    # acc = scaler.fit_transform(acc)
+    # accomodates = float(acc[-1:])
+
     data = pd.read_csv("Data/listings_8.csv")
     scaler = MinMaxScaler(feature_range=(0,1))
 
@@ -209,6 +244,7 @@ def filters():
     Smoke_Detector_bool = str_to_bool(request.args.get("Smoke_Detector_bool"));
     Heating_bool = str_to_bool(request.args.get("Heating_bool"));
     Clothes_Dryer_bool = str_to_bool(request.args.get("Clothes_Dryer_bool"));
+    Clothes_Washer_bool = str_to_bool(request.args.get("Clothes_Washer_bool"));
     Pets_live_in_flat_bool = str_to_bool(request.args.get("Pets_live_in_flat_bool"));
     Free_Parking_bool = str_to_bool(request.args.get("Free_Parking_bool"));
     Internet_bool = str_to_bool(request.args.get("Internet_bool"));
@@ -217,16 +253,18 @@ def filters():
     require_guest_profile_picture = str_to_bool(request.args.get("require_guest_profile_picture"));
     require_guest_phone_verification = str_to_bool(request.args.get("require_guest_phone_verification"));
     extra_price_75 = str_to_bool(request.args.get("extra_price_75"));
+    Gym_bool = str_to_bool(request.args.get("Gym_bool"));
+    Elevator_in_building_bool = str_to_bool(request.args.get("Elevator_in_building_bool"));
 
     # dropdown inputs
     neighborhood = request.args.get("neighborhood");
     property_type = request.args.get("property_type");
     room_type = request.args.get("room_type");
-    accomodates = request.args.get("accomodates");
-    bedrooms = request.args.get("bedrooms");
-    bathrooms = request.args.get("bathrooms");
-    extra_guests = request.args.get("extra_guests");
-    beds = request.args.get("beds");
+    # accomodates = request.args.get("accomodates");
+    # bedrooms = request.args.get("bedrooms");
+    # bathrooms = request.args.get("bathrooms");
+    # extra_guests = request.args.get("extra_guests");
+    # beds = request.args.get("beds");
     response_time = request.args.get("response_time");
     cancellations = request.args.get("cancellations");
 
@@ -415,7 +453,7 @@ def filters():
     df["Doorman_bool"] = [Doorman_bool]
     df["Kitchen_bool"] = [Kitchen_bool]
     df["Smoke_Detector_bool"] = [Smoke_Detector_bool]
-    df["Clothes_Dryer_bool"] = [Clothes_Dryer_bool]
+    df["Clothes_Washer_bool"] = [Clothes_Dryer_bool]
     df["Pets_live_in_flat_bool"] = [Pets_live_in_flat_bool]
     df["Free_Parking_bool"] = [Free_Parking_bool]
     df["Heating_bool"] = [Heating_bool]
@@ -462,8 +500,242 @@ def filters():
     # print(recommendations(coefs, df, X_wnei, data, recom))
 
     improvements = recommendations(coefs, airbnb, X_wnei, data, recom)
-    print(improvements)
-    return improvements
+    # print(improvements)
+
+#############################################################################
+############### PRICING #####################################################
+#############################################################################
+
+    def split(data):
+        '''
+        Clean the data and return an array for the target variable and all the input variables
+        '''
+        data=data.dropna()
+
+        data=data[data["price_per_night"]>=12]
+
+
+        data=data[data["price_per_night"]<850]
+        data=data[data["number_of_reviews"]>=1]
+        data=data[data["guests_included"]>=1]
+
+
+
+        data['extra_price']=data['security_deposit']+data['cleaning_fee']+data['extra_people']
+        data['extra_price'].describe()
+
+
+        for test in data['extra_price']:
+
+            if test<25:
+                data['extra_price']=25
+
+
+            if 25<test and test<100:
+                data['extra_price']=75
+
+
+            if 100<test and test<235:
+                data['extra_price']=125
+
+
+            if 235<test:
+                data['extra_price']=235
+
+        scaler=MinMaxScaler(feature_range=(0,1))
+        data[['extra_price']] = scaler.fit_transform(data[['extra_price']])
+
+    #     data[['bathrooms']] = scaler.fit_transform(data[['bathrooms']])
+    #     data[['bedrooms']] = scaler.fit_transform(data[['bedrooms']])
+    #     data[['beds']] = scaler.fit_transform(data[['beds']])
+    #     data[['accommodates']] = scaler.fit_transform(data[['accommodates']])
+
+        for categorical_feature in ['neighbourhood_cleansed',"property_type","room_type"]:
+            data = pd.concat([data,pd.get_dummies(data[categorical_feature], prefix=categorical_feature, prefix_sep='_',)], axis=1)
+
+
+        data= data.drop(['neighbourhood_cleansed', 'property_type', 'room_type','description','host_about_bool',
+                        'amenities',"house_rules","review_scores_cleanliness","review_scores_rating",'review_scores_accuracy',
+                        'review_scores_cleanliness','review_scores_checkin','review_scores_communication','review_scores_value',
+                         'id',"property_type", "host_response_rate", 'reviews_per_month','number_of_reviews'
+                         ,'security_deposit','cleaning_fee','extra_people','extra_price','availability_365',"guests_included"
+                         ,"host_is_superhost","transit_bool", "nosmok_bool", "fewdays_response_time", 'fewdays_response_time',
+                         '1day_response_time', '1hour_response_time', 'fewhours_response_time', 'host_identity_verified',
+                         'Internet_bool', 'super_strict_canc', 'moderate_cancellation', 'strict_cancellation', 'flexible_cancellation',
+                         'require_guest_profile_picture', 'require_guest_phone_verification','Kitchen_boolean','Clothes_Dryer_bool'
+                        ],axis=1)
+
+        # Target variable (price_per_night)
+
+        y = data["price_per_night"]
+        data=data.drop(["price_per_night"],axis=1)
+
+        #guests included to re
+        data_1=data[["bathrooms","bedrooms","beds","accommodates"]]
+        data=data.drop(["bathrooms","bedrooms","beds","accommodates"],axis=1)
+
+        data=data.astype('bool')
+
+        data=pd.concat([data, data_1], axis=1, sort=False)
+
+        X = data
+
+    #     print(y)
+    #     print(X)
+
+        return (X,y)
+
+    def XGB(X,y,airbnbPricing,date):
+        '''
+        Calculating RMSE with XGBoost Hyperparameters
+
+        '''
+        from sklearn.model_selection import train_test_split
+
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=123)
+
+        xg_reg = xgb.XGBRegressor(objective ='reg:linear', colsample_bytree = 0.3, learning_rate = 0.2,
+                    max_depth = 7, alpha = 20, n_estimators = 70)
+
+        xg_reg.fit(X_train,y_train)
+
+    #     preds = xg_reg.predict(X_test)
+    #     rmse = np.sqrt(mean_squared_error(y_test, preds))
+
+        pricePred = xg_reg.predict(airbnbPricing)
+
+        if date in ["10/7/2020", "10/8/2020", "10/9/2020", "10/10/2020", "10/14/2020", "10/15/2020", "10/16/2020", "10/17/2020",
+         "10/18/2020", "10/21/2020", "10/22/2020", "10/23/2020", "10/26/2020", "10/27/2020", "10/28/2020", "10/29/2020",
+         "4/13/2020", "4/14/2020", "4/15/2020", "4/16/2020", "4/17/2020", "4/18/2020", "4/19/2020", "4/20/2020", "4/21/2020",
+         "4/22/2020", "6/8/2020", "6/9/2020", "6/10/2020", "6/11/2020", "6/12/2020", "6/13/2020", "6/14/2020", "6/15/2020",
+         "6/16/2020", "6/17/2020", "6/30/2020", "7/1/2020", "7/7/2020", "7/8/2020", "7/12/2020", "7/13/2020", "7/14/2020",
+         "7/15/2020", "7/17/2020", "7/21/2020", "7/22/2020", "7/24/2020", "7/25/2020", "7/26/2020", "7/27/2020", "7/28/2020",
+         "7/29/2020", "7/30/2020", "7/31/2020", "8/1/2020", "8/2/2020", "8/4/2020", "8/5/2020", "8/10/2020", "8/11/2020",
+         "8/12/2020", "8/14/2020", "8/16/2020", "8/17/2020", "8/18/2020", "8/19/2020", "8/21/2020", "8/23/2020", "8/25/2020",
+         "8/26/2020", "8/28/2020", "8/29/2020", "9/1/2020", "9/2/2020", "9/3/2020", "9/4/2020", "9/5/2020"]:
+            pricePred=pricePred*1.5
+
+
+    #     print("RMSE: %f" % (rmse))
+        return pricePred[0]
+
+
+    data = pd.read_csv("Data/listings_8.csv")
+    X,y= split(data)
+
+
+
+    neighborhoods = X.iloc[:,18:43].columns
+
+    a = {   'neighbourhood_cleansed_Allston': [False],
+            'neighbourhood_cleansed_Back Bay': [False],
+            'neighbourhood_cleansed_Bay Village': [False],
+            'neighbourhood_cleansed_Beacon Hill': [False],
+            'neighbourhood_cleansed_Brighton': [False],
+            'neighbourhood_cleansed_Charlestown': [False],
+            'neighbourhood_cleansed_Chinatown': [False],
+            'neighbourhood_cleansed_Dorchester': [False],
+            'neighbourhood_cleansed_Downtown': [False],
+            'neighbourhood_cleansed_East Boston': [False],
+            'neighbourhood_cleansed_Fenway': [False],
+            'neighbourhood_cleansed_Hyde Park': [False],
+            'neighbourhood_cleansed_Jamaica Plain': [False],
+            'neighbourhood_cleansed_Leather District': [False],
+            'neighbourhood_cleansed_Longwood Medical Area': [False],
+            'neighbourhood_cleansed_Mattapan': [False],
+            'neighbourhood_cleansed_Mission Hill': [False],
+            'neighbourhood_cleansed_North End': [False],
+            'neighbourhood_cleansed_Roslindale': [False],
+            'neighbourhood_cleansed_Roxbury': [False],
+            'neighbourhood_cleansed_South Boston': [False],
+            'neighbourhood_cleansed_South Boston Waterfront': [False],
+            'neighbourhood_cleansed_South End': [False],
+            'neighbourhood_cleansed_West End': [False],
+            'neighbourhood_cleansed_West Roxbury': [False]}
+    dfneighborhoods = pd.DataFrame(a)
+
+    for i in neighborhoods:
+        i = i.split("_")[2].replace(" ", "")
+        if i == neighborhood:
+            i = re.sub( r"([A-Z])", r" \1", i).split()
+            i = " ".join(i)
+            name = "neighbourhood_cleansed_" + i
+            dfneighborhoods[name] = [True]
+
+    properties = X.iloc[:,43:55].columns
+    a = {   'property_type_Apartment': [False],
+            'property_type_Bed & Breakfast': [False],
+            'property_type_Boat': [False],
+            'property_type_Condominium': [False],
+            'property_type_Dorm': [False],
+            'property_type_Entire Floor': [False],
+            'property_type_Guesthouse': [False],
+            'property_type_House': [False],
+            'property_type_Loft': [False],
+            'property_type_Other': [False],
+            'property_type_Townhouse': [False],
+            'property_type_Villa': [False]}
+    dfproperties = pd.DataFrame(a)
+
+    for i in properties:
+        i = i.split("_")[2].replace(" ", "")
+        if i == property_type:
+            i = re.sub( r"([A-Z])", r" \1", i).split()
+            i = " ".join(i)
+            name = "property_type_" + i
+            dfproperties[name] = [True]
+
+
+    rooms = X.iloc[:,55:58].columns
+    a = {   'room_type_Entire home/apt': [False],
+            'room_type_Private room': [False],
+            'room_type_Shared room': [False]}
+    dfrooms = pd.DataFrame(a)
+
+    for i in rooms:
+        i = i.split("_")[2].replace(" ", "")
+        if i == room_type:
+            i = re.sub( r"([A-Z])", r" \1", i).split()
+            i = " ".join(i)
+            name = "property_type_" + i
+            dfrooms[name] = [True]
+
+
+
+    pricing = { "nopets_bool":[nopets_bool],
+                "is_location_exact":[is_location_exact],
+                "Wheelchair_bool":[Wheelchair_bool],
+                "TV_bool":[TV_bool],
+                "Hair Dryer_bool":[Hair_Dryer_bool],
+                "24-Hour_Check-in_bool":[twentyfour_Hour_Check_in_bool],
+                "Doorman_bool":[Doorman_bool],
+                "Gym_bool":[Gym_bool],
+                "Kitchen_bool":[Kitchen_bool],
+                "Smoke_Detector_bool":[Smoke_Detector_bool],
+                "Elevator_in_building_bool":[Elevator_in_building_bool],
+                "Pets_live_in_flat_bool":[Pets_live_in_flat_bool],
+                "Free_Parking_bool":[Free_Parking_bool],
+                "Heating_bool":[Heating_bool],
+                "Clothes_Washer_bool":[Clothes_Washer_bool],
+                "Wireless_Internet_bool":[Internet_bool],
+                "AC_bool":[AC_bool],
+                "instant_bookable":[instant_bookable]}
+
+    df = pd.DataFrame(pricing)
+
+    df = pd.concat([df, dfneighborhoods], axis=1, sort=False)
+    df = pd.concat([df, dfproperties], axis=1, sort=False)
+    df = pd.concat([df, dfrooms], axis=1, sort=False)
+    df["bathrooms"] = bathrooms
+    df["bedrooms"] = bedrooms
+    df["beds"] = beds
+    df["accommodates"] = accomodates
+
+    pred = XGB(X,y,df,str(date))
+
+    print(improvements+";"+str(pred))
+
+    return (improvements+";"+str(pred))
 
 
 
