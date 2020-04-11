@@ -171,9 +171,8 @@ def filters():
     # text inputs
     host_response_rate = float(request.args.get("host_response_rate"));
     date = request.args.get("date");
-    print(date)
     datetimeobject = datetime.strptime(date,'%Y-%m-%d')
-    date = str(datetimeobject.strftime('%m/%d/%Y'))
+    date = str(datetimeobject.strftime('%-m/%-d/%Y'))
 
     security_deposit = float(request.args.get("security_deposit"));
     cleaning_fee = float(request.args.get("cleaning_fee"));
@@ -181,31 +180,6 @@ def filters():
     beds = float(request.args.get("beds"));
     bathrooms = float(request.args.get("bathrooms"));
     accomodates = float(request.args.get("accomodates"));
-
-    # standardizing
-    # bedr = data[["bedrooms"]].copy()
-    # df = pd.DataFrame([[bedrooms]], columns=['bedrooms'])
-    # bedr = bedr.append(df)
-    # bedr = scaler.fit_transform(bedr)
-    # bedrooms = float(bedr[-1:])
-
-    # bed = data[["beds"]].copy()
-    # df = pd.DataFrame([[beds]], columns=['beds'])
-    # bed = bed.append(df)
-    # bed = scaler.fit_transform(bed)
-    # beds = float(bed[-1:])
-
-    # bath = data[["bathrooms"]].copy()
-    # df = pd.DataFrame([[bathrooms]], columns=['bathrooms'])
-    # bath = bath.append(df)
-    # bath = scaler.fit_transform(bath)
-    # bathrooms = float(bath[-1:])
-
-    # acc = data[["accomodates"]].copy()
-    # df = pd.DataFrame([[accomodates]], columns=['accomodates'])
-    # acc = acc.append(df)
-    # acc = scaler.fit_transform(acc)
-    # accomodates = float(acc[-1:])
 
     data = pd.read_csv("Data/listings_8.csv")
     scaler = MinMaxScaler(feature_range=(0,1))
