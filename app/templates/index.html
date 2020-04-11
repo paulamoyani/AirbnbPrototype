@@ -357,8 +357,8 @@
 
 
 			function printResults(data){
-				$('div').empty();
 				console.log(data);
+				$('#results').empty();
 
 				if (!data.includes("Your Airbnb is very competitive compared to all the other Airbnbs in Boston!")){
 					console.log("not competitive")
