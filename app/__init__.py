@@ -172,7 +172,7 @@ def filters():
     host_response_rate = float(request.args.get("host_response_rate"));
     date = request.args.get("date");
     datetimeobject = datetime.strptime(date,'%Y-%m-%d')
-    date = str(datetimeobject.strftime('%-m/%-d/%Y'))
+    date = str(datetimeobject.strftime('%-d/%-m/%Y'))
 
     security_deposit = float(request.args.get("security_deposit"));
     cleaning_fee = float(request.args.get("cleaning_fee"));
