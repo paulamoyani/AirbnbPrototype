@@ -58,7 +58,7 @@ xgboost==1.0.2
 plotly==4.6.0
 graphviz==0.13.2
 seaborn==0.10.0
-ipython==7.13.0
+ipython==7.16.3
 pandas==1.0.3
 yellowbrick==1.1
 
